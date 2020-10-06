@@ -1,0 +1,2 @@
+# saltstack
+SaltStack Repository. 
