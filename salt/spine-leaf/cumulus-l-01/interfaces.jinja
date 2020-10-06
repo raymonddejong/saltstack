@@ -1,0 +1,57 @@
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto eth0
+iface eth0
+  address {{ eth0.address }}
+  gateway {{ eth0.gateway }} 
+  alias {{ eth0.description }}
+
+auto swp1
+iface swp1
+  address {{ swp1.address }}
+  gateway {{ swp1.gateway }}
+  mtu {{ swp1.mtu }}
+  alias {{ swp1.description }}
+
+auto swp2
+iface swp2
+    mtu {{ swp2.mtu }}
+    alias {{ swp2.description }}
+
+auto bridge
+iface bridge
+    bridge-vlan-aware yes
+    bridge-ports {%- for ports in bridge.ports%} {{ ports }}
+    {%- endfor %}
+
+    bridge-vids {%- for vids in bridge.vlans%} {{ vids }}
+    {%- endfor %}
+
+    bridge-pvid 1
+
+auto vlan101
+iface vlan101
+    address {{ vlan101.address }}
+    vlan-id {{ vlan101.vlan }}
+    vlan-raw-device bridge
+
+auto vlan103
+iface vlan103
+    address {{ vlan103.address }}
+    vlan-id {{ vlan103.vlan }}
+    vlan-raw-device bridge
+
+auto vlan105
+iface vlan105
+    address {{ vlan105.address }}
+    vlan-id {{ vlan105.vlan }}
+    vlan-raw-device bridge
+
+auto vlan200
+iface vlan200
+    address {{ vlan200.address }}
+    vlan-id {{ vlan200.vlan }}
+    vlan-raw-device bridge

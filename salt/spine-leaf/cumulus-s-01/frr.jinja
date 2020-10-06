@@ -1,0 +1,16 @@
+frr version 7.4+cl4u1
+frr defaults datacenter
+hostname {{ hostname.fqdn }}
+log syslog informational
+zebra nexthop proto only
+service integrated-vtysh-config
+router bgp {{ bgp.as }}
+ neighbor {{ core.address }} remote-as {{ core.remote_as }}
+ neighbor {{ leaf_a.address }} remote-as {{ leaf_a.remote_as }}
+ neighbor {{ leaf_b.address }} remote-as {{ leaf_b.remote_as }}
+ address-family ipv4 unicast
+  redistribute connected
+  redistribute static
+ exit-address-family
+ip prefix-list DEFAULT seq 5 permit 0.0.0.0/0
+line vty
